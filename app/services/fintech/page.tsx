@@ -11,12 +11,11 @@ import {
   IconLock,
   IconTrendingUp,
   IconCreditCard,
-  IconBrandStripe,
   IconShieldCheck,
   IconArrowLeft,
   IconCheck,
   IconRocket,
-  IconBrandBitcoin
+  IconCoins
 } from '@tabler/icons-react'
 
 export default function FinTechPage() {
@@ -37,7 +36,7 @@ export default function FinTechPage() {
       description: 'Real-time stock trading, crypto exchanges, algorithmic trading, and portfolio management.'
     },
     {
-      icon: IconBrandBitcoin,
+      icon: IconCoins,
       title: 'Blockchain & Crypto',
       description: 'Cryptocurrency wallets, DeFi platforms, NFT marketplaces, and smart contract integration.'
     },
