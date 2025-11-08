@@ -36,3 +36,5 @@ next-env.d.ts
 # fonts (if you add custom fonts, remove from gitignore)
 # public/fonts/*.woff2
 # public/fonts/*.woff
+
+.vercel
