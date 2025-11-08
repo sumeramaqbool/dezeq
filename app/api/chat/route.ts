@@ -7,7 +7,7 @@ export async function POST(req: Request) {
     // Simple FAQ matcher (replace with OpenAI for production)
     const faqs: Record<string, string> = {
       'what services': 'We offer SaaS development, AI/ML solutions, Healthcare software, Education & School Management systems, FinTech applications, ERP/CRM systems, and modern web applications.',
-      'how to start': 'Starting a project is easy! Simply fill out our contact form or schedule a consultation. We'll discuss your requirements and provide a detailed proposal within 48 hours.',
+      'how to start': 'Starting a project is easy! Simply fill out our contact form or schedule a consultation. We will discuss your requirements and provide a detailed proposal within 48 hours.',
       'pricing': 'Our pricing is project-based and depends on scope, complexity, and timeline. We offer flexible payment plans and can work within various budget ranges. Contact us for a custom quote!',
       'timeline': 'Project timelines vary based on complexity. Simple projects take 4-8 weeks, medium projects 2-4 months, and complex enterprise solutions 6-12 months.',
       'technologies': 'We use cutting-edge technologies including React, Next.js, Node.js, Python, TensorFlow, AWS, Azure, Docker, Kubernetes, and more.',
@@ -15,7 +15,7 @@ export async function POST(req: Request) {
     }
 
     const lowerMessage = message.toLowerCase()
-    let response = "That's a great question! For detailed information, please contact us directly via our contact form or email us at hello@dezeq.com."
+    let response = "That is a great question! For detailed information, please contact us directly via our contact form or email us at info@dezeq.com."
 
     for (const [key, value] of Object.entries(faqs)) {
       if (lowerMessage.includes(key)) {
