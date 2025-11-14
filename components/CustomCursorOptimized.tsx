@@ -15,20 +15,31 @@ export default function CustomCursorOptimized() {
     const cursorDot = cursorDotRef.current
     if (!cursor || !cursorDot) return
 
+    // Throttle animation to 30fps instead of 60fps for better performance
+    let lastTime = 0
+    const fps = 30
+    const interval = 1000 / fps
+
     // Update target position immediately
     const updatePosition = (e: MouseEvent) => {
       targetRef.current = { x: e.clientX, y: e.clientY }
     }
 
-    // Smooth animation with RAF
-    const animate = () => {
-      // Lerp for smooth following
-      posRef.current.x += (targetRef.current.x - posRef.current.x) * 0.15
-      posRef.current.y += (targetRef.current.y - posRef.current.y) * 0.15
+    // Smooth animation with RAF - throttled
+    const animate = (time: number) => {
+      const elapsed = time - lastTime
 
-      // Use transform for GPU acceleration
-      cursor.style.transform = `translate3d(${posRef.current.x}px, ${posRef.current.y}px, 0)`
-      cursorDot.style.transform = `translate3d(${posRef.current.x}px, ${posRef.current.y}px, 0)`
+      if (elapsed > interval) {
+        lastTime = time - (elapsed % interval)
+
+        // Lerp for smooth following - increased speed
+        posRef.current.x += (targetRef.current.x - posRef.current.x) * 0.25
+        posRef.current.y += (targetRef.current.y - posRef.current.y) * 0.25
+
+        // Use transform for GPU acceleration
+        cursor.style.transform = `translate3d(${posRef.current.x}px, ${posRef.current.y}px, 0)`
+        cursorDot.style.transform = `translate3d(${posRef.current.x}px, ${posRef.current.y}px, 0)`
+      }
 
       rafRef.current = requestAnimationFrame(animate)
     }
@@ -36,8 +47,8 @@ export default function CustomCursorOptimized() {
     // Handle hover states
     const handleMouseEnter = () => {
       isHoveringRef.current = true
-      cursor.style.transform = `translate3d(${posRef.current.x}px, ${posRef.current.y}px, 0) scale(1.8)`
-      cursorDot.style.transform = `translate3d(${posRef.current.x}px, ${posRef.current.y}px, 0) scale(0.3)`
+      cursor.style.transform = `translate3d(${posRef.current.x}px, ${posRef.current.y}px, 0) scale(1.5)`
+      cursorDot.style.transform = `translate3d(${posRef.current.x}px, ${posRef.current.y}px, 0) scale(0.5)`
     }
 
     const handleMouseLeave = () => {
@@ -51,8 +62,8 @@ export default function CustomCursorOptimized() {
 
     const interactiveElements = document.querySelectorAll('a, button, [role="button"], input, textarea')
     interactiveElements.forEach(el => {
-      el.addEventListener('mouseenter', handleMouseEnter)
-      el.addEventListener('mouseleave', handleMouseLeave)
+      el.addEventListener('mouseenter', handleMouseEnter, { passive: true } as AddEventListenerOptions)
+      el.addEventListener('mouseleave', handleMouseLeave, { passive: true } as AddEventListenerOptions)
     })
 
     // Start animation loop

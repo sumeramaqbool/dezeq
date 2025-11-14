@@ -94,36 +94,45 @@ export default function HeroOptimized() {
 
     window.addEventListener('mousemove', handleMouseMove, { passive: true })
 
-    // Optimized animation loop
+    // Highly optimized animation loop - 30fps max
     const clock = new THREE.Clock()
     let frameCount = 0
+    let lastTime = 0
+    const fps = 30
+    const interval = 1000 / fps
 
-    const animate = () => {
-      frameCount++
-      const elapsedTime = clock.getElapsedTime()
+    const animate = (currentTime: number) => {
+      const elapsed = currentTime - lastTime
 
-      // Update only every 2 frames for better performance
-      if (frameCount % 2 === 0) {
-        particlesMesh.rotation.y = elapsedTime * 0.02
-        particlesMesh.rotation.x = mouseY * 0.15
+      if (elapsed > interval) {
+        lastTime = currentTime - (elapsed % interval)
+        frameCount++
+        const elapsedTime = clock.getElapsedTime()
+
+        // Update only every 3 frames for better performance
+        if (frameCount % 3 === 0) {
+          particlesMesh.rotation.y = elapsedTime * 0.02
+          particlesMesh.rotation.x = mouseY * 0.15
+        }
+
+        torus.rotation.x = elapsedTime * 0.08
+        torus.rotation.y = elapsedTime * 0.12
+
+        sphere.rotation.x = elapsedTime * 0.15
+        sphere.rotation.y = elapsedTime * 0.08
+        sphere.position.y = Math.sin(elapsedTime * 0.4) * 0.2
+
+        // Reduced mouse follow sensitivity
+        meshGroup.rotation.y += (mouseX * 0.05 - meshGroup.rotation.y) * 0.03
+        meshGroup.rotation.x += (mouseY * 0.05 - meshGroup.rotation.x) * 0.03
+
+        renderer.render(scene, camera)
       }
 
-      torus.rotation.x = elapsedTime * 0.08
-      torus.rotation.y = elapsedTime * 0.12
-
-      sphere.rotation.x = elapsedTime * 0.15
-      sphere.rotation.y = elapsedTime * 0.08
-      sphere.position.y = Math.sin(elapsedTime * 0.4) * 0.2
-
-      // Reduced mouse follow sensitivity
-      meshGroup.rotation.y += (mouseX * 0.05 - meshGroup.rotation.y) * 0.03
-      meshGroup.rotation.x += (mouseY * 0.05 - meshGroup.rotation.x) * 0.03
-
-      renderer.render(scene, camera)
       requestAnimationFrame(animate)
     }
 
-    animate()
+    animate(0)
 
     // Smooth scroll animations with gentle movements
     const setupScrollAnimation = () => {

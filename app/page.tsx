@@ -14,15 +14,13 @@ import Footer from '@/components/Footer'
 import CustomCursorOptimized from '@/components/CustomCursorOptimized'
 import FloatingChatbot from '@/components/FloatingChatbot'
 import AnimatedBackground from '@/components/AnimatedBackground'
-import SmoothScroll from '@/components/SmoothScroll'
-
 export default function Home() {
   const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsLoading(false)
-    }, 2500)
+    }, 1000)
 
     return () => clearTimeout(timer)
   }, [])
@@ -33,19 +31,17 @@ export default function Home() {
       <AnimatedBackground />
       <CustomCursorOptimized />
       <FloatingChatbot />
-      <SmoothScroll>
-        <Navigation />
-        <main>
-          <HeroOptimized />
-          <About />
-          <Expertise />
-          <TeamProfessional />
-          <Portfolio />
-          <TrustedByProfessional />
-          <Contact />
-        </main>
-        <Footer />
-      </SmoothScroll>
+      <Navigation />
+      <main>
+        <HeroOptimized />
+        <About />
+        <Expertise />
+        <TeamProfessional />
+        <Portfolio />
+        <TrustedByProfessional />
+        <Contact />
+      </main>
+      <Footer />
     </>
   )
 }
