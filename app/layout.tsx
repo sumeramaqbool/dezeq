@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { Poppins, Montserrat } from 'next/font/google'
+import Script from 'next/script'
 import './globals.css'
 
 const poppins = Poppins({
@@ -42,6 +43,24 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={`smooth-scroll ${poppins.variable} ${montserrat.variable}`}>
+      <head>
+        <Script
+          strategy="afterInteractive"
+          src="https://www.googletagmanager.com/gtag/js?id=G-0HXB850E56"
+        />
+        <Script
+          id="google-analytics"
+          strategy="afterInteractive"
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', 'G-0HXB850E56');
+            `,
+          }}
+        />
+      </head>
       <body className={poppins.className}>
         <div className="grain"></div>
         {children}
